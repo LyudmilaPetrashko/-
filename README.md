@@ -1,1 +1,1 @@
-# DZ NA VTOROI SEMESTR
+# hw for the second semestr
