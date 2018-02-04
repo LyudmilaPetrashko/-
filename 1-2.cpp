@@ -48,12 +48,6 @@ complex operator-(const complex& val4){
 }
 
 
-complex operator*( int i){
-	complex mult1;
-	mult1.comp.a=i*comp.a;
-	mult1.comp.b=i*comp.b;
-	return mult1;
-}
 
 complex operator*(const complex& val5){
 	complex mult2;
@@ -64,28 +58,70 @@ complex operator*(const complex& val5){
 	
 	
 	
-complex operator/(const complex& val6){
+complex operator/(const complex& val6){ // re - вещественная часть, im - мнимая часть
 	complex quo;
-   if((val6.comp.b==0)&&(val6.comp.a==0)){
-cout<<"error";
-  }
-else{
-	quo.comp.a=(comp.a*val6.comp.a+comp.b*val6.comp.b)/(val6.comp.a*val6.comp.a+val6.comp.b*val6.comp.b);
-	quo.comp.b=(val6.comp.a*comp.b-comp.a*val6.comp.b)/(val6.comp.a*val6.comp.a+val6.comp.b*val6.comp.b);
-	return quo;
-}}
+   double r = val6.comp.a * val6.comp.a + val6.comp.b * val6.comp.b;
+   quo.comp.a = (comp.a * val6.comp.a + comp.b * val6.comp.b) / r;
+   quo.comp.b = (comp.b * val6.comp.a - comp.a * val6.comp.b) / r;
+     return quo;
+}
 
-void display(complex h){
-    cout<<"="<<h.comp.a<<"+"<<h.comp.b<<"*"<<"i";
+
+complex operator = (complex* val7)
+{
+	if (val7 == this)
+		return *this;
+	return complex(this->comp.a = val7->comp.a, this->comp.b = val7->comp.b);
+}
+
+
+void init(double a,double b)
+{
+    comp.a=a;
+    comp.b=b;
+}
+
+complex conj()
+{
+    complex res1;
+    double y=-comp.b;
+    double x=comp.a;
+    res1.init(x,y);
+    return res1;
+}
+
+complex mod()
+{
+    complex res2;
+    double x=-comp.a;
+    double y=-comp.b;
+    res2.init(x,y);
+    return res2;
+}
+
+double output_re(){
+    double x=comp.a;
+    return x;
+}
+
+
+double output_im{
+    double y=comp.b;
+    return y;
+}
+
+
+void display(){
+    cout<<"=("<<comp.a<<","<<comp.b<<")";
 	  }};
 	  
 
 
 int main() {
-    double n, m, k, l;
-    int a,b, i;
+    double n, m, k, l, i, v, w;
+    int a,b;
 	cin>>n>>m>>k>>l>>i;
-	complex p(n,m), q(k,l), c,d,e,f, g, h;
+	complex p(n,m), q(k,l), c,d,e,f, g, h, j(7,8), x, y;
 	if(p==q){
 		a=1;
 	} else{
@@ -93,28 +129,43 @@ int main() {
 	}
 	if(p!=q){
 		b=1;
-	} else{
+	} else {
 		b=0;
 	}
 	c=p+q;
 	d=p-q;
 	e=p*i;
 	f=p*q;
+	j=p;
+	h=p/q;
+    x=p.conj();
+    y=q.mod();
+    v=p.output_re();
+    w=q.output_im();
 	
-	
+	cout<<"in complex numbers first number is real part, second number is imaginary part"<<endl<<endl;;
 	cout<<"!=: "<<b<<endl;
-	cout<<"==: "<<a<<endl;
+	cout<<"==: "<<a;
+	cout<<endl<<"=: j";
+	j.display();
 	cout<<"sum: c";
-	c.display(c);
+	c.display();
 	cout<<endl<<"dif: d";
-	d.display(d);
+	d.display();
 	cout<<endl<<"mult1: e";
-	e.display(e);
+	e.display();
 	cout<<endl<<"mult2: f";
-	f.display(f);
-cout<<endl<<"quo: ";
-    h=p/q;
-cout<<endl<<"control: ";
+	f.display();
+	cout<<endl<<"quo: h";
+	h.display();
+	cout<<endl<<"conj: x(p)";
+	x.display();
+	cout<<endl<<"mod: y(q)";
+	y.display();
+    cout<<endl<<"real part: v(p)="<<v<<endl<<"imaginary part: w(q)="<<w;
+       
+cout<<endl<<"control: g";
     g=p*q+q*3-p/q;
+    g.display();
 	return 0;
 }
