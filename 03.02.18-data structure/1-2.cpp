@@ -16,7 +16,7 @@ struct Complex{
 class complex{
     Complex comp;
    public: 
-complex(double x=0.0, double y=0.0){ //числа вида (а,б) на самом деле выглядят так с=а+ib
+complex(double x=0.0, double y=0.0){ 
     comp.a=x;
     comp.b=y;
 }
