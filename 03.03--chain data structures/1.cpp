@@ -42,25 +42,44 @@ struct stack{
  	    }
  	}
  	
- 	
- 	
- 	
- 	//проверка на пустоту
- 	bool empty(){
- 	    if(head==NULL){
- 	        return 1;
- 	        }
- 	        else{
- 	            return 0;
- 	        }
- 	}
+
+//удаление элемента 	
+double pop(){
+    double i=head->data;
+    if(head==NULL){
+        cout<<"stack empty"<<endl;
+        return 0;
+    }
+    else{
+        node *k;
+        k=head->next;
+        delete head;
+        head=k;
+    }
+    return i;
+}
+
+    
+    
+//проверка на пустоту
+bool empty(){
+ 	  if(head==NULL){
+ 	      return 1;
+ 	  }
+ 	  else{
+ 	      return 0;
+ 	  }
+}
  	
 };
 int main(){
 	stack g;
-	cout<<"show stack: ";
 	g.push(9);
 	g.push(0);
+	g.push(7.65749);
+	g.push(67);
+	cout<<"pop: "<<g.pop()<<endl;
+	cout<<"show stack: ";
 	g.show();
 	cout<<"stack empty?: "<<g.empty()<<endl;
 	return 0;
