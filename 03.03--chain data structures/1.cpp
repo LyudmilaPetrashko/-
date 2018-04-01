@@ -1,8 +1,3 @@
- /*Реализовать структуру для работы со стеками вещественных чисел и программу с примером работы этой структуры. Стек должен
-удовлетворять правилу Трёх 
-содержать методы push(добавление элемента), pop(удаление элемента), front(взятие значения первого элемента), empty(проверка на пустоту).*/
-
-
 #include <iostream>
 #include<cassert>
 using namespace std;
@@ -112,7 +107,7 @@ stack& operator = (const stack &st){
      node *p;
      double s;
      p= new node();
-     cout<<"vvedite chislo: ";
+     cout<<"enter a number: ";
      cin>>s;
      p->data=s;
      if(head==NULL){
@@ -155,6 +150,7 @@ double front(){
         return c->data;
     }
     else{
+	 cout<<"stack empty";   
         return 0;
     }
 }
