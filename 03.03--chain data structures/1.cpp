@@ -1,4 +1,10 @@
+ /*Реализовать структуру для работы со стеками вещественных чисел и программу с примером работы этой структуры. Стек должен
+удовлетворять правилу Трёх 
+содержать методы push(добавление элемента), pop(удаление элемента), front(взятие значения первого элемента), empty(проверка на пустоту).*/
+
+
 #include <iostream>
+#include<cassert>
 using namespace std;
 
 
@@ -14,10 +20,77 @@ struct stack{
  	node *head;
  	int size;
 	
-	//конструктор
- 	stack(){head=NULL; size=0;}
+
+//конструктор
+stack(){head=NULL; size=0;}
  	
  	
+
+//конструктор копирования
+stack (const stack &other_stack) {
+    size=other_stack.size;
+    head=other_stack.head;
+    node *s, *c=other_stack.head;
+    s=new node();
+    s=head;
+    while(c!=NULL){
+        s=new node();
+        c=c->next;
+        s->data=c->data;
+        s=s->next;
+        }
+}
+        
+
+
+stack& operator = (const stack &st){
+    if(this!=&st){
+    node *p, *q;
+    while(head!=NULL){  
+    p=head;
+    head=head->next ;
+    delete p;
+}
+    size=st.size;
+    p=new node();
+    head=new node();
+    head->data=st.head->data;
+    head->next=p;
+    q=st.head->next;
+    p->data=q->data;
+    for(int i=2; i<size; i++){
+        p->next=new node();
+        p=p->next;
+        q=q->next;
+        p->data=q->data;
+    }
+    }
+    else{
+        return *this;
+        }
+        
+    return *this;
+}
+        
+ 
+ 	
+ //добавление элемента
+ void push(double h){
+     node *q;
+     q= new node();
+     q->data=h;
+     if(head==NULL){
+         head=q;
+     }
+     else{
+         q->next=head;
+         head=q;
+     }
+     size++;
+ }
+ 
+ 
+    
  // вывод стека
  void show(){
      node *p=head;
@@ -33,18 +106,21 @@ struct stack{
      cout<<endl;
  }
  	
- 	
- //добавление элемента
- void push(double h){
-     node *q;
-     q= new node();
-     q->data=h;
+ 
+ //добавление элемента с консоли
+ void push(){
+     node *p;
+     double s;
+     p= new node();
+     cout<<"vvedite chislo: ";
+     cin>>s;
+     p->data=s;
      if(head==NULL){
-         head=q;
+         head=p;
      }
      else{
-         q->next=head;
-         head=q;
+         p->next=head;
+         head=p;
      }
      size++;
  }
@@ -80,12 +156,11 @@ double front(){
     }
     else{
         return 0;
-    
-}
+    }
 }
 
     
-    
+   
 //проверка на пустоту
 bool empty(){
  	  if(head==NULL){
@@ -109,19 +184,22 @@ bool empty(){
 }
 
 };
-
-
+    
 
 int main(){
-	stack g;
+	stack g, y;
 	g.push(9.8);
 	g.push(0.7);
 	g.push(7.65749);
 	g.push(67.1);
 	cout<<"pop: "<<g.pop()<<endl;
-	cout<<"front(if stack empty, write '0'): "<<g.front()<<endl;
-	cout<<"stack empty?: "<<g.empty()<<endl;
-	cout<<"show stack(left-back, right-front): ";
+	cout<<"front: "<<g.front()<<endl;
+	cout<<"the stack is empty?: "<<g.empty()<<endl;
+	cout<<endl<<"check operator ="<<endl<<"show stack g(left-back, right-front): ";
+	y=g;
+	g.head->data++;
 	g.show();
+	cout<<"show stack y(left-back, right-front): ";
+	y.show();
 	return 0;
 }
