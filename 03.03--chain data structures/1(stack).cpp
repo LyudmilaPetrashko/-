@@ -22,17 +22,18 @@ stack(){head=NULL; size=0;}
  	
 
 //конструктор копирования
-stack (const stack &other_stack) {
-    size=other_stack.size;
-    head=other_stack.head;
-    node *s, *c=other_stack.head;
-    s=new node();
-    s=head;
+stack (const stack &other) {
+    size=other.size;
+    node *s, *c=other.head;
+    head=new node();
+    s=new node();	
+    head->data=other.head->data;
+    head->next=s;	
     while(c!=NULL){
-        s=new node();
         c=c->next;
         s->data=c->data;
         s=s->next;
+	s=new node();    
         }
 }
         
