@@ -45,9 +45,9 @@ stack& operator = (const stack &st){
     if(this!=&st){
     node *p, *q;
     while(head!=NULL){  
-    p=head;
-    head=head->next ;
-    delete p;
+    p=head->next ;
+    delete head;
+    head=p;	    
 }
     size=st.size;
     p=new node();
