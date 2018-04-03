@@ -32,18 +32,17 @@ queue(){head=NULL; tail=NULL; size=0;}
 queue (const queue &other) {
     size=other.size;
     node *s, *c=other.head;
-    head=new node();
-    s=new node();	
+    head=new node();	
     head->data=other.head->data;
     head->next=s;	
     while(c!=NULL){
-        c=c->next;
-        s->data=c->data;
-        s=s->next;
-	    s=new node();    
+            s=new node();
+            c=c->next;
+            s->data=c->data;
+            tail=s;
+            s=s->next;
         }
-        tail=s;
-}
+  }
         
 
 
