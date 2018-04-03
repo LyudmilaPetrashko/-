@@ -203,26 +203,3 @@ int main(){
 	return 0;
 }
 
-}
-}
-
-};
-    
-
-int main(){
-	stack g, y;
-	g.push(9.8);
-	g.push(0.7);
-	g.push(7.65749);
-	g.push(67.1);
-	cout<<"pop: "<<g.pop()<<endl;
-	cout<<"front: "<<g.front()<<endl;
-	cout<<"the stack is empty?: "<<g.empty()<<endl;
-	cout<<endl<<"check operator ="<<endl<<"show stack g(left-back, right-front): ";
-	y=g;
-	g.head->data++;
-	g.show();
-	cout<<"show stack y(left-back, right-front): ";
-	y.show();
-	return 0;
-}
