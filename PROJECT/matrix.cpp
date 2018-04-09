@@ -106,7 +106,7 @@ matrix operator-(const matrix& m2){
     
 matrix operator*(const matrix& m3){
          matrix t(m,m3.n), h;
-         if(n==m3.m){
+         if(m==m3.n){
             for (int i = 0; i < m; ++ i){
                 for (int j = 0; j < m3.n; ++ j){
                      for (int k = 0; k < m; ++ k){
@@ -134,6 +134,15 @@ matrix operator*(double d){
 }
         
 
+matrix transp ()  //транспонирование матрицы
+{
+   matrix c(m, n);
+   for (int i = 0; i < n; ++ i)
+      for (int j = 0; j <m; ++ j)
+         c.arr[j][i] = arr[i][j];
+   return c;
+}
+
 
 void print(){    //вывод матрицы
     for (int i = 0; i < n; i++){ 
@@ -155,26 +164,36 @@ void print(){    //вывод матрицы
 
 
 int main(){
-    matrix c(2,2), j(2,2), sum, dif, mult_m_m, mult_m_n;
+    matrix c(2,2), j(2,2), sum, dif, mult_m_m, mult_m_n, trans;
+    
     c.get();
-    j.get();
-    sum=j+c;
-    dif=j-c;
-    mult_m_m=c*j;
-    mult_m_n=c*3;
-    cout<<c.arr[0][1];
     cout<<endl<<"print c:"<<endl;
     c.print();
+    
+    j.get();
     cout<<endl<<"print j:"<<endl;
     j.print();
+    
+    sum=j+c;
     cout<<endl<<"print sum:"<<endl;
     sum.print();
+    
+    dif=j-c;
     cout<<endl<<"print dif:"<<endl;
     dif.print();
+    
+   
+    mult_m_m=c*j;
     cout<<endl<<"print mult_m_m:"<<endl;
     mult_m_m.print();
+    
+    mult_m_n=c*3;
     cout<<endl<<"print mult_m_n:"<<endl;
     mult_m_n.print();
+    
+    trans=c.transp();
+    cout<<endl<<"print transp:"<<endl;
+    trans.print();
     
     return 0;
 }
