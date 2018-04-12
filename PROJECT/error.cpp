@@ -101,7 +101,36 @@ struct value{
     }
     
     
+    value operator+(const value& v2){
+        value sum;
+        sum.av_val=av_val+v2.av_val;
+        sum.error=sqrt(error*error+v2.error*v2.error);
+        return sum;
+    }
     
+    
+    value operator-(const value& v3){
+        value div;
+        div.av_val=av_val-v3.av_val;
+        div.error=sqrt(error*error+v3.error*v3.error);
+        return div;
+    }
+    
+    
+    value operator*(double x){
+        value mult;
+        mult.av_val=av_val*x;
+        mult.error=error*x;
+        return mult;
+    }
+    
+    
+    value operator*(const value& v4){
+        value mult;
+        mult.av_val=av_val*v4.av_val;
+        mult.error=mult.av_val*sqrt(error*error/(av_val*av_val)+v4.error*v4.error/(v4.av_val*v4.av_val));
+        return mult;
+    }
     
         
     void show(){
@@ -111,7 +140,7 @@ struct value{
 
 
 int main(){
-    value fi, g(1);
+    value fi, g(1), sum;
     g=fi;
     cout<<endl<<"show fi: ";
     fi.show();
