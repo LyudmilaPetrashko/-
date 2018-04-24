@@ -4,7 +4,7 @@
 
 using namespace std;
 
-struct value{     
+struct value{
     double av_val;//среднее значение
     double error;//абсолютная погрешность
     string name;//название переменной(если нужен ввод данных)
@@ -18,7 +18,7 @@ struct value{
             cout<<"enter the number of experiments("<<name<<"): ";
             cin>>a;
             double* arr=new double[a];
-            double divv, curr=0, cur=0;
+            double curr=0, cur=0;
             cout<<"enter the reading error("<<name<<"): ";
             cin>>read_er;
             cout<<"enter the calibration error("<<name<<"): ";
@@ -45,11 +45,11 @@ struct value{
             scal_er=3*sqrt(curr/(a-1));// c 95% точности
             }
             error=sqrt(pow(read_er,2)+pow(scal_er,2)+pow(calib_er,2));
-            
+
             delete[] arr;
     }
 
-    value(){ //конструктор по умолчанию 
+    value(){ //конструктор по умолчанию
         name='0';
         av_val=0;
         error=0;
@@ -148,8 +148,96 @@ struct value{
         return qu2;
     }
 
-    void show(){ //вывод значения
-        cout<<endl<<av_val<<"+-"<<error<<endl;
+    void show(){ //вывод значения(окруление среднего значения и погрешности)
+
+        if(av_val>error){
+            double x, y;
+
+            if(error>1){
+                x=(error-int(error))*10;
+
+
+                if(x>=5){
+                    error=int(error)+1;
+                }
+                else{
+                    error=int(error);
+                }
+                y=(av_val-int(av_val))*10;
+
+
+                if(y>=5){
+                    av_val=int(av_val)+1;
+                }
+                else{
+                    av_val=int(av_val);
+                }
+            }
+            else{
+                int n=0;
+                double f=error;
+                while(f<1){
+                   f*=10;
+                   n++;
+                }
+
+
+                if (int(error*pow(10,n+1)>=15)){
+
+                    x=error*pow(10,n);
+                    x=(x-int(x))*10;
+
+
+                    if(x>=5){
+                        error=(int(error*pow(10,n))+1)/pow(10,n);
+                    }
+                    else{
+                        error=int(error*pow(10,n))/pow(10,n);
+                    }
+
+                    y=av_val*pow(10,n);
+                    y=(y-int(y))*10;
+
+
+                    if(y>=5){
+                        av_val=(int(av_val*pow(10,n))+1)/pow(10,n);
+                    }
+                    else{
+                        av_val=int(av_val*pow(10,n))/pow(10,n);
+                    }
+                }
+
+                else{
+
+                    x=error*pow(10,n+1);
+                    x=(x-int(x))*10;
+
+
+                    if(x>=5){
+                        error=(int(error*pow(10,n+1))+1)/pow(10,n+1);
+                    }
+                    else{
+                        error=int(error*pow(10,n+1))/pow(10,n+1);
+                    }
+
+                    y=av_val*pow(10,n+1);
+                    y=(y-int(y))*10;
+
+
+                    if(y>=5){
+                        av_val=(int(av_val*pow(10,n+1))+1)/pow(10,n+1);
+                    }
+                    else{
+                        av_val=int(av_val*pow(10,n+1))/pow(10,n+1);
+                    }
+                }
+            }
+            cout<<endl<<av_val<<"+-"<<error<<endl;
+        }
+            else{
+                cout<<endl<<"maybe something is wrong"<<endl;
+            }
+
     }
 
 };
@@ -164,11 +252,21 @@ struct value{
 
 
 int main(){
-    string name1, name2;
+    string name1, name2, name3, name4, name5;
     getline(cin, name1);
     getline(cin, name2);
+    getline(cin, name3);
+    double e3=1.9;
+    double a3=897.09;
+  
+    value v3(a3,e3,name3);
+     cout<<endl<<"show v3: ";
+    v3.show();
+    
+    value v, v1(name1), sum, dif, v2(name2), mult_v, mult_n, po, quo_v, quo_n, example;
 
-    value v1, v2(name1), sum, dif, v3(name2), mult_v, mult_n, po, quo_v, quo_n, example;
+    cout<<endl<<"show v3: ";
+    v3.show();
 
     cout<<endl<<"show v1: ";
     v1=v2;
