@@ -15,14 +15,15 @@ struct value{
     double read_er, scal_er, calib_er;//погрешности отсчитывания, по разбросу, градуировки
 
     value(string n):  name(n) { //конструктор
-            cout<<"enter the number of experiments("<<name<<"): ";
+            cout<<endl<<"enter the number of experiments("<<name<<"): ";
             cin>>a;
             double* arr=new double[a];
             double curr=0, cur=0;
-            cout<<"enter the reading error("<<name<<"): ";
+            cout<<endl<<"enter the reading error("<<name<<"): ";
             cin>>read_er;
             cout<<"enter the calibration error("<<name<<"): ";
             cin>>calib_er;
+            cout<<endl;
 
             for(int i=0; i<a; i++){
                 cout<<"enter the result of the "<<i+1<<" experiment("<<name<<"): ";
@@ -42,7 +43,7 @@ struct value{
                 scal_er=0;
             }
             else{
-            scal_er=3*sqrt(curr/(a-1));// c 95% точности
+            scal_er=2*sqrt(curr/(a-1));// c 80-90% точности?????
             }
             error=sqrt(pow(read_er,2)+pow(scal_er,2)+pow(calib_er,2));
 
@@ -151,27 +152,10 @@ struct value{
     void show(){ //вывод значения(окруление среднего значения и погрешности)
 
         if(av_val>error){
-            double x, y;
 
             if(error>1){
-                x=(error-int(error))*10;
-
-
-                if(x>=5){
-                    error=int(error)+1;
-                }
-                else{
-                    error=int(error);
-                }
-                y=(av_val-int(av_val))*10;
-
-
-                if(y>=5){
-                    av_val=int(av_val)+1;
-                }
-                else{
-                    av_val=int(av_val);
-                }
+                    error=round(error*10)/10;
+                    av_val=round(av_val*10)/10;
             }
             else{
                 int n=0;
@@ -184,58 +168,19 @@ struct value{
 
                 if (int(error*pow(10,n+1)>=15)){
 
-                    x=error*pow(10,n);
-                    x=(x-int(x))*10;
-
-
-                    if(x>=5){
-                        error=(int(error*pow(10,n))+1)/pow(10,n);
+                        error=round(error*pow(10,n))/pow(10,n);
+                        av_val=round(av_val*pow(10,n))/pow(10,n);
                     }
-                    else{
-                        error=int(error*pow(10,n))/pow(10,n);
-                    }
-
-                    y=av_val*pow(10,n);
-                    y=(y-int(y))*10;
-
-
-                    if(y>=5){
-                        av_val=(int(av_val*pow(10,n))+1)/pow(10,n);
-                    }
-                    else{
-                        av_val=int(av_val*pow(10,n))/pow(10,n);
-                    }
-                }
 
                 else{
-
-                    x=error*pow(10,n+1);
-                    x=(x-int(x))*10;
-
-
-                    if(x>=5){
-                        error=(int(error*pow(10,n+1))+1)/pow(10,n+1);
+                    error=round(error*pow(10,n+1))/pow(10,n+1);
+                    av_val=round(av_val*pow(10,n+1))/pow(10,n+1);
                     }
-                    else{
-                        error=int(error*pow(10,n+1))/pow(10,n+1);
-                    }
-
-                    y=av_val*pow(10,n+1);
-                    y=(y-int(y))*10;
-
-
-                    if(y>=5){
-                        av_val=(int(av_val*pow(10,n+1))+1)/pow(10,n+1);
-                    }
-                    else{
-                        av_val=int(av_val*pow(10,n+1))/pow(10,n+1);
-                    }
-                }
             }
-            cout<<endl<<av_val<<"+-"<<error<<endl;
+            cout<<av_val<<"+-"<<error<<endl;
         }
             else{
-                cout<<endl<<"maybe something is wrong"<<endl;
+                cout<<"maybe something is wrong"<<endl;
             }
 
     }
@@ -252,63 +197,20 @@ struct value{
 
 
 int main(){
-    string name1, name2, name3, name4, name5;
+    string name1, name2, name3;
+    cout<<"enter the name of the first variable: ";
     getline(cin, name1);
+    cout<<"enter the name of the second variable: ";
     getline(cin, name2);
+    cout<<"enter the name of the third variable: ";
     getline(cin, name3);
-    double e3=1.9;
-    double a3=897.09;
-  
-    value v3(a3,e3,name3);
-     cout<<endl<<"show v3: ";
-    v3.show();
-    
-    value v, v1(name1), sum, dif, v2(name2), mult_v, mult_n, po, quo_v, quo_n, example;
 
-    cout<<endl<<"show v3: ";
-    v3.show();
+    value l(name1), w(name2), h(name3), V;
 
-    cout<<endl<<"show v1: ";
-    v1=v2;
-    v1.show();
+    cout<<endl;
 
-    cout<<endl<<"show v2: ";
-    v2.show();
-
-    cout<<endl<<"show v3: ";
-    v3.show();
-
-    sum=v1+v2;
-    cout<<endl<<"show sum: ";
-    sum.show();
-
-    dif=v1-v3;
-    cout<<endl<<"show difference: ";
-    dif.show();
-
-    mult_v=v1*v2;
-    cout<<endl<<"show product_v: ";
-    mult_v.show();
-
-    mult_n=v1*2;
-    cout<<endl<<"show product_n: ";
-    mult_n.show();
-
-    quo_v=v1/v3;
-    cout<<endl<<"show quotient_v: ";
-    quo_v.show();
-
-    quo_n=v1/2;
-    cout<<endl<<"show quotient_n: ";
-    quo_n.show();
-
-    po=pow(v2,2.0);
-    cout<<endl<<"show pow: ";
-    po.show();
-
-    example=v2*v3*(v1+v2)/v3*7;
-    cout<<endl<<"show example: ";
-    example.show();
-
+    V=l*w*h;
+    cout<<"V=";
+    V.show();
     return 0;
 }
