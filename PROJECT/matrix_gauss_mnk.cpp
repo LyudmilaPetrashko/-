@@ -246,7 +246,8 @@ return g;
 void MNK(){
 
     int q;
-    cout<<"enter 1 if this is a polynomial of degree n"<<endl<<"      2 if it is a dependency of several variables: ";
+    cout<<"enter 1 if you work with n degree polynom"<<endl;
+    cout<<"      2 if you work with dependence of some variables: ";
     cin>>q;
 
     int xy_size, x_s;
@@ -256,7 +257,7 @@ void MNK(){
     switch(q){
 
     case 1:{
-        cout<<endl<<"enter the degree of the polynomial: ";
+        cout<<endl<<"enter polynom degree: ";
         cin>>x_s;
 
         cout<<endl<<"enter the number of experiments: ";
@@ -312,7 +313,7 @@ void MNK(){
             kk=k;
         }
         else{
-            cout<<endl<<"it is impossible to calculate definitely"<<endl;
+            cout<<endl<<"it is impossible to calculate unambiguously"<<endl;
         }
     }
     break;
@@ -323,7 +324,7 @@ void MNK(){
         cout<<endl<<"enter the number of variables: ";
         cin>>x_s;
 
-        cout<<endl<<"//for example: Y=a*Time+b*Speed+c*Distance+... =>  1 variable->Time , 2 variable->Speed, 3 variable->Distance...//"<<endl<<endl;
+        cout<<endl<<"for example: Y=a*Time+b*Speed+... =>  1 variable->Time , 2 variable->Speed..."<<endl<<endl;
 
         string *ar=new string[x_s];
         for(int r=0; r<x_s; r++){
@@ -337,7 +338,6 @@ void MNK(){
             matrix x(xy_size, x_s), y(xy_size,1);
 
             for(int i=0; i<xy_size; i++){
-                cout<<endl;
                 for(int j=0; j<x_s; j++){
                     cout<<"enter the value of "<<ar[j]<<" in the experiment number "<<i+1<<": ";
                     cin>>x.arr[i][j];
@@ -389,7 +389,7 @@ void MNK(){
             kk=k;
         }
         else{
-            cout<<endl<<"it is impossible to calculate definitely"<<endl;
+            cout<<endl<<"it is impossible to calculate unambiguously"<<endl;
         }
     }
         break;
@@ -420,7 +420,7 @@ void MNK(){
     R2=1-SS_res/SS_tot;
 
     R2_abj=1-(1-R2)*(double(yy.n-1))/(double(yy.n-xx.m+1));
-    cout<<endl<<"R^2_abj="<<round(R2_abj*10000)/10000;
+    cout<<endl<<"R^2="<<round(R2_abj*10000)/10000;
 }
 
 int main(){
