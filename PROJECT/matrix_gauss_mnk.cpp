@@ -50,7 +50,7 @@ void get(){  //заполнение матрицы
     for (int i = 0; i < n; i++){
         for (int j = 0; j < m; j++)
         {
-            cout << "Inter element " << "[" << i << "][" << j << "]:  ";
+            cout << "enter element " << "[" << i << "][" << j << "]:  ";
             cin >> arr[i][j];
         }
     }
@@ -192,6 +192,45 @@ void print(){    //вывод матрицы
     }
 }
 
+
+int determ() {// вычисление определителя по методу Гаусса
+  double d=1;
+  if (m<1) cout << "not to calculate determinant";
+  if (m == 1) {
+    d = arr[0][0];
+    return d;
+  }
+  if (m == 2) {
+    d = arr[0][0] * arr[1][1]-(arr[1][0] * arr[0][1]);
+    return d;
+  }
+  if (m>2) {
+        for(int g=0; g<m; g++){
+        if(arr[g][g]==0){
+            int k=g;
+            while(arr[k][g]==0){
+                k++;
+                if(k==m) return 0;
+            }
+            for(int x=0; x<m; x++){
+                swap(arr[k][x],arr[g][x]); //меняем строки, если arr[g][g]=0
+                arr[k][x]=-arr[k][x];
+            }
+        }
+        for(int y=g+1; y<m; y++){  //обнуляем g-тый столбец ниже g-того элемента 
+            double w=arr[y][g];
+            for(int t=0; t<m; t++){
+             arr[y][t]-=w/arr[g][g]*arr[g][t];
+            }
+        }
+    }
+    for(int f=0; f<m; f++){
+            d*=arr[f][f];
+  }
+  }
+  return d;
+}
+
 ~matrix(){  //деструктор
    for(int i = n - 1; i>=0; i--){
        delete [] arr[i];
@@ -201,7 +240,12 @@ void print(){    //вывод матрицы
 
 };
 
-matrix gauss(matrix mn){
+matrix gauss(matrix mn){//находим обратную матрицу по методу Гаусса
+    matrix c;
+    if(mn.determ()==0){
+        cout<<"it is impossible to calculate an inverse matrix";
+        return c;
+    }
  matrix g(mn.n); //создание единичной матрицы
  for(int i=0; i<mn.n; i++){
     if(mn.arr[i][i]==0){
@@ -282,11 +326,18 @@ void MNK(){
                 cin>>y.arr[i][0];
                 x.arr[i][0]=1;
             }
-
+            
             matrix k;
 
             a_t=x.transp();
             at_a=a_t*x;
+            
+            if(at_a.determ()==0){
+                cout<<endl<<"not to calculate regression model as there was no inverse matrix";
+                return;
+            }
+            
+            else{
             ag=gauss(at_a);
             ag_at=ag*a_t;
             k=ag_at*y;
@@ -311,6 +362,7 @@ void MNK(){
             yy=y;
             xx=x;
             kk=k;
+        }
         }
         else{
             cout<<endl<<"it is impossible to calculate unambiguously"<<endl;
@@ -354,6 +406,13 @@ void MNK(){
 
             a_t=x.transp();
             at_a=a_t*x;
+           
+            if(at_a.determ()==0){
+                cout<<endl<<"not to calculate regression model as there was no inverse matrix";
+                return;
+            }
+            
+            else{
             ag=gauss(at_a);
             ag_at=ag*a_t;
             k=ag_at*y;
@@ -387,6 +446,7 @@ void MNK(){
             yy=y;
             xx=x;
             kk=k;
+        }
         }
         else{
             cout<<endl<<"it is impossible to calculate unambiguously"<<endl;
@@ -427,3 +487,5 @@ int main(){
 MNK();
 return 0;
 }
+
+
