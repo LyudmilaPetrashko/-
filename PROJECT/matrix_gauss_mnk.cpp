@@ -193,7 +193,7 @@ void print(){    //вывод матрицы
 }
 
 
-int determ() {// вычисление определителя по методу Гаусса
+double determ() {// вычисление определителя по методу Гаусса
   double d=1;
   if (m<1) cout << "not to calculate determinant";
   if (m == 1) {
@@ -462,7 +462,7 @@ void MNK(){
     }
     y_cp/=yy.n;  //y среднее
 
-    matrix y_i; // у - фактические значения
+    matrix y_i; // у - теоретические значения
     y_i=xx*kk;
 
     matrix res;
