@@ -6,9 +6,8 @@
 using namespace std;
 
 
-class matrix{ //класс матриц
+struct matrix{ //структура матриц
 
-public:
 int n,m;  //n-кол-во строк,m-кол-во столбцов
 double** arr;
 
