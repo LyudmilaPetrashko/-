@@ -58,7 +58,7 @@ struct value{
     }
 
 
-    value(double x, double y, string h): av_val(x), error(y), name(h){ //конструктор для переменной, где все уже посчитано
+    value(double x, double y): av_val(x), error(y){ //конструктор для переменной, где все уже посчитано
         }
 
     value(const value& v){ //конструктор копирования
@@ -112,7 +112,7 @@ struct value{
     value operator*(double x){
         value mult1;
         mult1.av_val=av_val*x;
-        mult1.error=error*x;
+        mult1.error=error;
         return mult1;
     }
 
@@ -128,7 +128,7 @@ struct value{
     value operator/(double y){
         value qu1;
         qu1.av_val=av_val/y;
-        qu1.error=error/y;
+        qu1.error=error;
         return qu1;
     }
 
@@ -140,6 +140,13 @@ struct value{
         return qu2;
     }
 
+    value operator-(){
+        value y;
+        y.av_val=-av_val;
+        y.error=error;
+        cout<<y.av_val<<" "<<y.error;
+        return y;
+    }
 
     bool operator==(const value& v6){
         if(av_val==v6.av_val&&error==v6.error){
@@ -154,19 +161,19 @@ struct value{
 
  void show(value& va){ //вывод значения(окруление среднего значения и погрешности)
 
-        if(va.av_val>va.error){
-            if(va.error>1){
+        if(abs(va.av_val)>abs(va.error)){
+            if(abs(va.error)>1){
                     va.error=int(va.error*10)/10;
                     va.av_val=round(va.av_val*10)/10;
             }
             else{
                 int n=0;
                 double f=va.error;
-                while(f<1){
+                while(abs(f)<1){
                    f*=10;
                    n++;
                 }
-                if(int(va.error*pow(10,n+1)>=15)){
+                if(int(abs(va.error)*pow(10,n+1)>=15)){
                         va.error=round(va.error*pow(10,n))/pow(10,n);
                         va.av_val=round(va.av_val*pow(10,n))/pow(10,n);
                     }
@@ -180,18 +187,18 @@ struct value{
 
 
     else{
-        if(va.av_val>1){
+        if(abs(va.av_val)>1){
             va.error=int(va.error*10)/10;
             va.av_val=round(va.av_val*10)/10;
             }
         else{
             int n=0;
             double f=va.av_val;
-            while(f<1){
+            while(abs(f)<1){
                 f*=10;
                 n++;
             }
-        if (int(va.av_val*pow(10,n+1)>=15)){
+        if (int(abs(va.av_val)*pow(10,n+1)>=15)){
             va.error=round(va.error*pow(10,n))/pow(10,n);
             va.av_val=round(va.av_val*pow(10,n))/pow(10,n);
             }
@@ -200,7 +207,7 @@ struct value{
             va.av_val=round(va.av_val*pow(10,n+1))/pow(10,n+1);
             }
         }
-        cout<<va.av_val<<"+-"<<va.error;
+        cout<<"("<<va.av_val<<"+-"<<va.error<<")";
     }
 
 }
@@ -211,6 +218,31 @@ struct value{
             p.error=p.av_val*n*(v5.error/v5.av_val);
             return p;
         }
+
+    value operator+(double x1, value& va1){
+        value k1=va1+x1;
+        return k1;
+    }
+
+    value operator-(double x2, value& va2){
+        value k2;
+        k2.av_val=x2-va2.av_val;
+        k2.error=va2.error;
+        return k2;
+    }
+
+    value operator*(double x3, value& va3){
+        value k3=va3*x3;
+        return k3;
+    }
+
+    value operator/(double x4, value& va4){
+        value k4;
+        k4.av_val=x4/va4.av_val;
+        k4.error=va4.error;
+        return k4;
+    }
+
 
 int main(){
     value t("time"), s("distance"), u;
