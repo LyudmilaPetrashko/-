@@ -120,7 +120,7 @@ struct value{
     value operator*(const value& v4){
         value mult2;
         mult2.av_val=av_val*v4.av_val;
-        mult2.error=sqrt(error*error*v4.av_val*v4.av_val+v4.error*v4.error*av_val*av_val);
+        mult2.error=sqrt(error*error/(av_val*av_val)+v4.error*v4.error/(v4.av_val*v4.av_val))*av_val*v4.av_val;
         return mult2;
     }
 
@@ -136,7 +136,7 @@ struct value{
     value operator/(const value& v5){
         value qu2;
         qu2.av_val=av_val/v5.av_val;
-        qu2.error=sqrt(error*error*v5.av_val*v5.av_val+v5.error*v5.error*av_val*av_val)/(v5.av_val*v5.av_val);
+        qu2.error=sqrt(error*error/(av_val*av_val)+v5.error*v5.error/(v5.av_val*v5.av_val))*qu2.av_val;
         return qu2;
     }
 
@@ -144,7 +144,6 @@ struct value{
         value y;
         y.av_val=-av_val;
         y.error=error;
-        cout<<y.av_val<<" "<<y.error;
         return y;
     }
 
@@ -163,7 +162,7 @@ struct value{
 
         if(abs(va.av_val)>abs(va.error)){
             if(abs(va.error)>1){
-                    va.error=int(va.error*10)/10;
+                    va.error=round(va.error*10)/10;
                     va.av_val=round(va.av_val*10)/10;
             }
             else{
@@ -173,7 +172,7 @@ struct value{
                    f*=10;
                    n++;
                 }
-                if(int(abs(va.error)*pow(10,n+1)>=15)){
+                if(floor(abs(va.error)*pow(10,n))>=2){
                         va.error=round(va.error*pow(10,n))/pow(10,n);
                         va.av_val=round(va.av_val*pow(10,n))/pow(10,n);
                     }
@@ -188,7 +187,7 @@ struct value{
 
     else{
         if(abs(va.av_val)>1){
-            va.error=int(va.error*10)/10;
+            va.error=round(va.error*10)/10;
             va.av_val=round(va.av_val*10)/10;
             }
         else{
@@ -198,7 +197,7 @@ struct value{
                 f*=10;
                 n++;
             }
-        if (int(abs(va.av_val)*pow(10,n+1)>=15)){
+        if (floor(abs(va.av_val)*pow(10,n+1)>=15)){
             va.error=round(va.error*pow(10,n))/pow(10,n);
             va.av_val=round(va.av_val*pow(10,n))/pow(10,n);
             }
@@ -219,24 +218,24 @@ struct value{
             return p;
         }
 
-    value operator+(double x1, value& va1){
+    value operator+(double x1,value va1){
         value k1=va1+x1;
         return k1;
     }
 
-    value operator-(double x2, value& va2){
+    value operator-(double x2, value va2){
         value k2;
         k2.av_val=x2-va2.av_val;
         k2.error=va2.error;
         return k2;
     }
 
-    value operator*(double x3, value& va3){
+    value operator*(double x3, value va3){
         value k3=va3*x3;
         return k3;
     }
 
-    value operator/(double x4, value& va4){
+    value operator/(double x4, value va4){
         value k4;
         k4.av_val=x4/va4.av_val;
         k4.error=va4.error;
@@ -245,9 +244,11 @@ struct value{
 
 
 int main(){
+    
     value t("time"), s("distance"), u;
     u=s/t;
     cout<<"u=";
     show(u);
+
     return 0;
 }
