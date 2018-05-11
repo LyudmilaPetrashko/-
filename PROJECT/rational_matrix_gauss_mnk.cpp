@@ -22,17 +22,24 @@ struct ration{ // класс дробей
     }
     ration(int h): a(h), b(1){}
     ration(double w){
-        double *wi=&w;
         int d=0;
-        while(w-round(*wi)!=0){
+        while(abs(w-round(w))>1.0e-9){
             w*=10;
-            d++;
+            d++;    
         }
-        int k=pow(10.0,d);
-        int z=gcd(w,k);
-        a=w/z;
+        int k=pow(10,d);
+        int z=gcd(round(w),k);
+        a=round(w)/z;
         b=k/z;
     }
+    
+    /*ration(double w){
+        int d=0;
+        w*=10000000;
+        int z=gcd((int)w,10000000);
+        a=(int)w/z;
+        b=10000000/z;
+    }*/
     ration(const ration& rat){
         a=rat.a;
         b=rat.b;
@@ -693,6 +700,9 @@ void MNK(){
 }
 
 int main(){
+matrix aa(1,1);
+aa.get();
+aa.print();
 return 0;
 }
 
