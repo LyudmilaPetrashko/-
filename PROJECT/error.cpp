@@ -166,6 +166,7 @@ struct value{
                     va.av_val=round(va.av_val*10)/10;
             }
             else{
+                if(va.error!=0){
                 int n=0;
                 double f=va.error;
                 while(abs(f)<1){
@@ -180,7 +181,22 @@ struct value{
                     va.error=round(va.error*pow(10,n+1))/pow(10,n+1);
                     va.av_val=round(va.av_val*pow(10,n+1))/pow(10,n+1);
                     }
-            }
+                }
+                else{
+                     int n=0;
+                     double f=va.av_val;
+                     while(abs(f)<1){
+                        f*=10;
+                        n++;
+                    }
+                    if(floor(abs(va.av_val)*pow(10,n))>=2){
+                            va.av_val=round(va.av_val*pow(10,n))/pow(10,n);
+                    }
+                    else{
+                        va.av_val=round(va.av_val*pow(10,n+1))/pow(10,n+1);
+                    }
+                }
+                }
             cout<<"("<<va.av_val<<"+-"<<va.error<<")";
         }
 
@@ -191,6 +207,7 @@ struct value{
             va.av_val=round(va.av_val*10)/10;
             }
         else{
+            if(va.av_val!=0){
             int n=0;
             double f=va.av_val;
             while(abs(f)<1){
@@ -204,6 +221,21 @@ struct value{
         else{
             va.error=round(va.error*pow(10,n+1))/pow(10,n+1);
             va.av_val=round(va.av_val*pow(10,n+1))/pow(10,n+1);
+            }
+            }
+            else{
+                int n=0;
+                double f=va.error;
+                while(abs(f)<1){
+                    f*=10;
+                    n++;
+                }
+            if (floor(abs(va.error)*pow(10,n+1)>=15)){
+                va.error=round(va.error*pow(10,n))/pow(10,n);
+            }
+            else{
+                va.error=round(va.error*pow(10,n+1))/pow(10,n+1);
+            }
             }
         }
         cout<<"("<<va.av_val<<"+-"<<va.error<<")";
@@ -244,11 +276,15 @@ struct value{
 
 
 int main(){
-    
-    value t("time"), s("distance"), u;
-    u=s/t;
-    cout<<"u=";
-    show(u);
+
+    value d(0.1, 0.0014), t("t"), c_v;
+    cout<<endl<<"t=";
+    show(t);
+    cout<<endl<<"d=";
+    show(d);
+    c_v=d/(2/0.3*d+t)*2;
+    cout<<endl<<"c_v=";
+    show(c_v);
 
     return 0;
 }
