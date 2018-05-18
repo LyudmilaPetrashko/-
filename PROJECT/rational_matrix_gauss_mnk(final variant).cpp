@@ -32,8 +32,8 @@ struct ration{ // класс дробей
 
     ration(long double w){
         int d=0;
-        while(abs(w-round(w))>1.0e-9){  //т.к. при округлении выскакивает погрешность, то в условии сравнение не с нулем, а с pow(10,-9)
-            w*=10;                      // чего достаточно, если использовать числа с не более чем 6 знаками после запятой
+        while(abs(w-round(w))>1.0e-9){
+            w*=10;
             d++;
         }
         long int k=pow(10.0,d);
@@ -641,32 +641,32 @@ void MNK(){
     else{
         cout<<endl<<"it is impossible to calculate unambiguously"<<endl;
     }
-    
-    
 
 
-    ration y_cp=yy.arr[0][0];
-    for(int j=1; j<yy.n; j++){
-        y_cp=y_cp+yy.arr[j][0];
+
+
+    double y_cp;
+    for(int j=0; j<yy.n; j++){
+        y_cp=y_cp+double(yy.arr[j][0].a)/yy.arr[j][0].b;
     }
 
-    y_cp=y_cp/yy.n;  //y среднее
+    y_cp=y_cp/yy.n;//y среднее
+
     matrix y_i; // у - теоретические значения
     y_i=xx*kk;
 
     matrix res;
     res=y_i-yy;
-    ration SS_res=0, SS_tot=0;
+
+    double SS_res=0, SS_tot=0;
     for(int ii=0; ii<yy.n; ii++){
-        SS_res=SS_res+pow(res.arr[ii][0],2);
-    }
-
+        SS_res=SS_res+pow(double(res.arr[ii][0].a)/res.arr[ii][0].b,2);
+        }
     for(int jj=0; jj<yy.n; jj++){
-        SS_tot=SS_tot+pow(y_cp-y_i.arr[jj][0], 2);
+        SS_tot=SS_tot+pow(y_cp-double(y_i.arr[jj][0].a)/double(y_i.arr[jj][0].b), 2);
     }
-
     double R2, R2_abj;
-    R2=1-SS_res.a*SS_tot.b/(double(SS_res.b*SS_tot.a));
+    R2=1-SS_res/SS_tot;
     R2_abj=1-(1-R2)*(double(yy.n-1))/(double(yy.n-xx.m+1));
     cout<<endl<<"R^2="<<round(R2_abj*10000)/10000;
 }
