@@ -658,15 +658,16 @@ void MNK(){
     matrix res;
     res=y_i-yy;
 
-    double SS_res=0, SS_tot=0;
+    double SS_res=0, SS_reg=0, SS_tot=0;
     for(int ii=0; ii<yy.n; ii++){
         SS_res=SS_res+pow(double(res.arr[ii][0].a)/res.arr[ii][0].b,2);
         }
     for(int jj=0; jj<yy.n; jj++){
-        SS_tot=SS_tot+pow(y_cp-double(y_i.arr[jj][0].a)/double(y_i.arr[jj][0].b), 2);
+        SS_reg=SS_reg+pow(y_cp-double(y_i.arr[jj][0].a)/double(y_i.arr[jj][0].b), 2);
     }
+    SS_tot=SS_res+SS_reg;
     double R2, R2_abj;
-    R2=1-SS_res/SS_tot;
+    R2=SS_reg/SS_tot;
     R2_abj=1-(1-R2)*(double(yy.n-1))/(double(yy.n-xx.m+1));
     cout<<endl<<"R^2="<<round(R2_abj*10000)/10000;
 }
